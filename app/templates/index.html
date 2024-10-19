@@ -2,65 +2,244 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Habit Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Atomic Habits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #F0F0F0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-        nav a {
-            margin: 0 15px;
-            color: white;
-            text-decoration: none;
-        }
-        main {
-            padding: 20px;
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .habit {
+        .navigation {
             display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .navigation a {
+            color: #F0F0F0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            font-size: 1.8rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+        }
+        .navigation a:hover {
+            background: #00C6FF;
+            box-shadow: 0 0 25px #00C6FF, 0 0 35px #00C6FF, 0 0 45px #00C6FF;
+            transform: scale(1.2);
+        }
+        .analysis-button {
+            background: #00C6FF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: background 0.5s ease, transform 0.3s ease;
+            text-decoration: none;
+            font-size: 1rem;
+            margin: 0 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        .analysis-button:hover {
+            background: #0074cc;
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px #0074cc, 0 0 35px #00C6FF, 0 0 45px #00C6FF;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            margin: 30px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #00E6FF;
+        }
+        td {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        input[type="checkbox"]:checked {
+            transform: scale(1.7);
+        }
+        .form-container {
+            display: none; /* Initially hidden */
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transition: background 0.5s ease;
+        }
+        .form-container:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .form-container input, .form-container select {
+            margin-bottom: 10px;
+            padding: 12px;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            border: none;
+            width: 70%;
+            background: rgba(255, 255, 255, 0.2);
+            color: #F0F0F0;
+        }
+        .form-container button {
+            width: 70%;
+            background: linear-gradient(to right, #00C6FF, #0074cc);
+            color: #fff;
+            padding: 12px 0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.5s, transform 0.3s ease;
+        }
+        .form-container button:hover {
+            background: linear-gradient(to right, #0074cc, #00C6FF);
+            transform: translateY(-5px);
+        }
+        .delete-button {
+            background: #FF4C4C;
+            color: white;
+            border-radius: 10px;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-right: 10px;
+        }
+        .delete-button:hover {
+            transform: scale(1.1);
+            background: #FF1C1C;
+        }
+        .toggle-button {
+            background: #00C6FF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.5s ease, transform 0.3s ease;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .toggle-button:hover {
+            background: #0074cc;
+            transform: translateY(-3px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Your Habit Tracker</h1>
-        <nav>
-            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            <a href="/habit"><i class="fas fa-list"></i> Manage Habits</a>
-        </nav>
+    <header class="text-center p-6 mb-6">
+        <h1 class="text-4xl font-bold">Habit Tracker</h1>
     </header>
 
-    <main>
-        <h2>Your Habits</h2>
-        {% if habits %}
-            {% for habit in habits %}
-            <div class="habit">
-                <span>{{ habit.name }}</span>
-                <span>Frequency: {{ habit.frequency }}</span>
-            </div>
-            {% endfor %}
-        {% else %}
-            <p>No habits to display. Add some on the <a href="/habit">Manage Habits</a> page!</p>
-        {% endif %}
+    <main class="max-w-5xl mx-auto p-6 bg-opacity-10 rounded shadow-lg mt-6 text-center">
+                    <!-- Toggle Form Visibility Button -->
+                    <button class="toggle-button" onclick="toggleForm()">Add New Habit</button>
+
+        <!-- Add Habit Form -->
+        <div class="form-container" id="habitForm">
+            <h3 class="text-xl font-bold mb-4">Add a New Habit</h3>
+            <form method="POST">
+                <input type="text" name="habit_name" placeholder="Habit Name" required>
+                <button type="submit">Add Habit</button>
+            </form>
+        </div>
+        <!-- Navigation Arrows -->
+        <div class="navigation">
+            <a href="?week_offset={{ week_offset - 1 }}"><i class="fas fa-arrow-left"></i></a>
+            <a href="?week_offset={{ week_offset + 1 }}"><i class="fas fa-arrow-right"></i></a>
+        </div>
+
+
+
+
+
+        <!-- Habits Table -->
+        <table class="overflow-hidden rounded-lg">
+            <thead>
+                <tr>
+                    <th>Options</th>
+                    <th>Habit</th>
+                    {% for day in week_dates %}
+                    <th>{{ day.strftime('%a %d') }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for habit, statuses in habit_status_dict.items() %}
+                <tr>
+                    <td>
+                        <form method="POST" action="{{ url_for('delete_habit', habit_id=habit.id) }}" style="display:inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </td>
+                    <td>{{ habit.name }}</td>
+                    {% for status in statuses %}
+                    <td>
+                        <input type="checkbox" data-habit-id="{{ habit.id }}" data-date="{{ status.date }}" {% if status.completed %}checked{% endif %}>
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav class="mt-4">
+            <a href="/analysis" class="analysis-button">View Analysis</a>
+        </nav>
     </main>
+
+    <script>
+        function toggleForm() {
+            const formContainer = document.getElementById('habitForm');
+            formContainer.style.display = formContainer.style.display === 'none' || formContainer.style.display === '' ? 'block' : 'none';
+        }
+
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const habitId = checkbox.getAttribute('data-habit-id');
+                const date = checkbox.getAttribute('data-date');
+                const completed = checkbox.checked;
+
+                // Send an AJAX request to update the server
+                fetch('/update_status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ habit_id: habitId, date: date, completed: completed })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Status updated successfully');
+                    }
+                })
+                .catch(error => console.error('Error updating status:', error));
+            });
+        });
+    </script>
 </body>
 </html>

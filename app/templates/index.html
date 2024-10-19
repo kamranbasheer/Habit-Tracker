@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .habit {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your Habit Tracker</h1>
+        <nav>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="/habit"><i class="fas fa-list"></i> Manage Habits</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Your Habits</h2>
+        {% if habits %}
+            {% for habit in habits %}
+            <div class="habit">
+                <span>{{ habit.name }}</span>
+                <span>Frequency: {{ habit.frequency }}</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No habits to display. Add some on the <a href="/habit">Manage Habits</a> page!</p>
+        {% endif %}
+    </main>
+</body>
+</html>

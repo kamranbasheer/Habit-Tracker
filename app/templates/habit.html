@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Habits</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+        }
+        form, ul {
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .habit {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/"><i class="fas fa-home"></i> Main Page</a>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </header>
+
+    <h2>Manage Your Habits</h2>
+    
+    <form method="POST">
+        <label for="name">Habit Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="frequency">Frequency:</label>
+        <input type="text" id="frequency" name="frequency" required>
+        <br>
+        <button type="submit">Add Habit</button>
+    </form>
+    
+    <ul>
+        {% for habit in habits %}
+        <li class="habit">
+            <span>{{ habit.name }}</span>
+            <span>Frequency: {{ habit.frequency }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+
